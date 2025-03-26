@@ -1,0 +1,44 @@
+networks:
+  applications:
+    external: true
+    name: applications
+  databases:
+    external: true
+    name: databases
+  production:
+    external: true
+    name: production
+services:
+  evolution:
+    container_name: evolution
+    image: atendai/evolution-api:v2.2.2
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - .env
+    environment:
+      DATABASE_PROVIDER: postgresql
+      DATABASE_CONNECTION: pgsql
+      DATABASE_CONNECTION_URI: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/evolution
+    ports:
+      - "8080:8080"
+    networks:
+      - applications
+      - databases
+      - production
+    volumes:
+      - evolution_instances:/evolution/instances
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.evolution.rule=Host(`evolution.agendouagora.com.br`)"
+      - "traefik.http.routers.evolution.entrypoints=websecure"
+      - "traefik.http.services.evolution.loadbalancer.server.port=8080"
+      - "traefik.docker.network=applications"
+
+volumes:
+  evolution_instances:
+    driver: local
+    name: evolution_instances
+

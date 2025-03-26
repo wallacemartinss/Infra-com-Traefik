@@ -1,0 +1,69 @@
+secrets:
+  cloudflare-token:
+    file: "secrets/cloudflare-token.secret"
+  cloudflare-email:
+    file: "secrets/cloudflare-email.secret"
+
+networks:
+  production:
+    external: true
+    name: production
+
+services:
+  traefik:
+    image: traefik:latest
+    container_name: traefik
+    restart: unless-stopped
+    command:
+      # Ativar providers e painel
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--api.dashboard=true"
+      - "--api.insecure=false"
+   
+      # Configurar Let's Encrypt via DNS-01 Cloudflare
+      - "--certificatesresolvers.letsencrypt.acme.dnschallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.dnschallenge.provider=cloudflare"
+      - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=1.1.1.1:53,1.0.0.1:53"
+      - "--certificatesResolvers.letsencrypt.acme.dnschallenge.delayBeforeCheck=20"
+      - "--certificatesresolvers.letsencrypt.acme.email=wallacemartinss@gmail.com"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+
+      # Redirecionamento de HTTP para HTTPS
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+
+      # Configurar TLS para o domínio e wildcard
+      - "--entrypoints.websecure.http.tls=true"
+      - "--entrypoints.websecure.http.tls.certResolver=letsencrypt"
+      - "--entrypoints.websecure.http.tls.domains[0].main=wmediatech.com"
+      - "--entrypoints.websecure.http.tls.domains[0].sans=*.wmediatech.com"
+      - "--entrypoints.websecure.http.tls.domains[1].main=agendouagora.com.br"
+      - "--entrypoints.websecure.http.tls.domains[1].sans=*.agendouagora.com.br"
+
+      # Habilitar logs detalhados
+      - "--log.level=DEBUG"
+    labels:
+      # Acesso ao painel do Traefik
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.wmediatech.com`)"
+      - "traefik.http.routers.traefik.entrypoints=websecure"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.middlewares.traefik-auth.basicauth.users=admin:$$2y$$05$$6OGRF54/oOhULtYamdZbTOBh4QouCOuTYpH5FeP2LDmfThAgx5qIC"
+      - "traefik.http.routers.traefik.middlewares=traefik-auth"
+    secrets:
+      - cloudflare-token
+      - cloudflare-email
+    environment:
+      - CF_DNS_API_TOKEN_FILE=/run/secrets/cloudflare-token
+      - CF_API_EMAIL_FILE=/run/secrets/cloudflare-email
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./certs:/letsencrypt
+    networks:
+      - production

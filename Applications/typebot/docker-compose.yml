@@ -1,0 +1,56 @@
+networks:
+  applications:
+    external: true
+    name: applications
+  databases:
+    external: true
+    name: databases
+  production:
+    external: true
+    name: production
+services:
+  typebot-builder:
+    image: elestio/typebot-builder:${SOFTWARE_VERSION_TAG}
+    container_name: typebot-builder
+    restart: always
+    env_file:
+      - .env
+    environment:
+      SMTP_SECURE: false
+      DISABLE_SIGNUP: true
+      DEBUG: true
+    networks:
+      - production
+      - databases
+      - applications
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.typebot-builder.rule=Host(`typebot.agendouagora.com.br`)"
+      - "traefik.http.routers.typebot-builder.entrypoints=websecure"
+      - "traefik.http.routers.typebot-builder.tls.certresolver=myresolver"
+      - "traefik.http.services.typebot-builder.loadbalancer.server.port=3000"
+      - "traefik.docker.network=applications"
+
+  typebot-viewer:
+    image: elestio/typebot-viewer:${SOFTWARE_VERSION_TAG}
+    container_name: typebot-viewer
+    restart: always
+    env_file:
+      - .env
+    environment:
+      SMTP_SECURE: false
+      DISABLE_SIGNUP: true
+      DEBUG: true
+    networks:
+      - production
+      - databases
+      - applications
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.typebot-viewer.rule=Host(`viewertypebot.agendouagora.com.br`)"
+      - "traefik.http.routers.typebot-viewer.entrypoints=websecure"
+      - "traefik.http.services.typebot-viewer.loadbalancer.server.port=3000"
+      - "traefik.docker.network=applications"
+ 
+ 
+

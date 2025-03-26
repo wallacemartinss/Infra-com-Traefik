@@ -1,0 +1,69 @@
+networks:
+  applications:
+    external: true
+    name: applications
+  databases:
+    external: true
+    name: databases
+  production:
+    external: true
+    name: production
+
+volumes:
+  s3_data:
+    driver: local
+    name: s3_data
+
+services:
+  minio:
+    image: minio/minio
+    container_name: minio
+    restart: always
+    command: server /data --console-address ":9002"
+    env_file:
+      - .env
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    volumes:
+      - s3_data:/data
+    ports:
+      - "9001:9001"
+      - "9000:9000"
+    networks:
+      - production
+      - applications
+    labels:
+      - "traefik.enable=true"
+
+      # Console Web UI
+      - "traefik.http.routers.minio-console.rule=Host(`minio.agendouagora.com.br`)"
+      - "traefik.http.routers.minio-console.entrypoints=websecure"
+      - "traefik.http.routers.minio-console.service=minio-console"
+      - "traefik.http.services.minio-console.loadbalancer.server.port=9002"
+
+      # API S3
+      - "traefik.http.routers.minio-api.rule=Host(`s3.agendouagora.com.br`)"
+      - "traefik.http.routers.minio-api.entrypoints=websecure"
+      - "traefik.http.routers.minio-api.service=minio-api"
+      - "traefik.http.services.minio-api.loadbalancer.server.port=9000"
+
+      - "traefik.docker.network=applications"
+
+  createbuckets:
+    image: minio/mc
+    container_name: createbuckets
+    depends_on:
+      - minio
+    restart: on-failure
+    entrypoint: >
+      /bin/sh -c "sleep 10 && \
+      /usr/bin/mc alias set minio --insecure https://s3.agendouagora.com.br admin C3tpvc99wh && \
+      if ! /usr/bin/mc ls minio/typebot; then \
+        /usr/bin/mc mb minio/typebot; \
+      fi && \
+      /usr/bin/mc anonymous set download minio/typebot && \
+      exit 0"
+    networks:
+      - applications
+      - production

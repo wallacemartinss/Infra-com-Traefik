@@ -1,0 +1,50 @@
+networks:
+  databases:
+    external: true
+    name: databases
+  production:
+    external: true
+    name: production
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./conf/postgresql.conf:/var/lib/postgresql/data/postgresql.conf  
+    command: ["postgres", "-c", "config_file=/var/lib/postgresql/data/postgresql.conf"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - databases
+
+  postgres-exporter:
+    image: prometheuscommunity/postgres-exporter
+    container_name: postgres-exporter
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
+    ports:
+      - "9187:9187"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.postgres-exporter.rule=Host(`postgres-exporter.wmediatech.com`)"
+      - "traefik.http.routers.postgres-exporter.entrypoints=websecure"
+      - "traefik.http.services.postgres-exporter.loadbalancer.server.port=9187"
+    networks:
+      - databases
+      - production
+
+volumes:
+  postgres_data:
+    driver: local
+    name: postgres_data

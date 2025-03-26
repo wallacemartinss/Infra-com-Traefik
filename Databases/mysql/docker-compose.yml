@@ -1,0 +1,58 @@
+networks:
+  databases:
+    external: true
+    name: databases
+  production:
+    external: true
+    name: production
+services:
+  mysql:
+    image: mysql:8.0 
+    container_name: mysql
+    restart: unless-stopped
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    env_file:
+      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      LANG: C.UTF-8
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./conf/init.sql:/docker-entrypoint-initdb.d/init.sql  # Executa o script na primeira inicialização
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - databases
+
+  mysql_exporter:
+    image: quay.io/prometheus/mysqld-exporter:latest
+    container_name: mysql_exporter
+    restart: unless-stopped
+    ports:
+      - "9104:9104"
+    env_file:
+      - .env
+    command:
+      - "--mysqld.username=exporter:4f75b6ac924c8df5a273e8a4b1e9fd72"
+      - "--mysqld.address=mysql:3306"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mysql_exporter.rule=Host(`mysql-exporter.wmediatech.com`)"
+      - "traefik.http.routers.mysql_exporter.entrypoints=websecure"
+      - "traefik.http.services.mysql_exporter.loadbalancer.server.port=9104"
+    networks:
+      - databases
+      - production
+
+volumes:
+  mysql_data:
+    driver: local
+    name: mysql_data

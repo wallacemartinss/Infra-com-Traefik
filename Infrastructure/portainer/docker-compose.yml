@@ -1,0 +1,27 @@
+networks:
+  production:
+    external: true
+    name: production
+
+services:
+  portainer:
+      image: portainer/portainer-ce:latest
+      container_name: portainer
+      restart: unless-stopped
+      ports:
+        - "9443:9000"
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock:ro
+        - portainer_data:/data
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.portainer.rule=Host(`portainer.wmediatech.com`)"
+        - "traefik.http.routers.portainer.entrypoints=websecure"
+        - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+      networks:
+        - production
+
+volumes:
+  portainer_data:
+    driver: local
+    name: portainer_data
