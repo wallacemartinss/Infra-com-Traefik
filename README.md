@@ -4,6 +4,7 @@
     </h2>
 </p>
 
+---
 
 ## 🚀 About this Project
 
@@ -89,7 +90,6 @@ A collection of handy commands to help you manage your infrastructure and server
 ## 🔐 SSH Key Management
 
 **Generate a new SSH key (no passphrase):**
-
 ```bash
 
 ssh-keygen -t ed25519 -C "your-email@example.com" -f ~/.ssh/id_ed25519_ci -N ""
@@ -97,7 +97,6 @@ ssh-keygen -t ed25519 -C "your-email@example.com" -f ~/.ssh/id_ed25519_ci -N ""
 ```
 
 **View the private key:**
-
 ```bash
 
 cat ~/.ssh/id_ed25519_ci
@@ -105,7 +104,6 @@ cat ~/.ssh/id_ed25519_ci
 ```
 
 **View the public key:**
-
 ```bash
 
 cat ~/.ssh/id_ed25519_ci.pub
@@ -114,7 +112,6 @@ cat ~/.ssh/id_ed25519_ci.pub
 
 **Add the public key to the server (as root):**
 Append the .pub content to:
-
 ```bash
 
 /root/.ssh/authorized_keys
@@ -122,7 +119,6 @@ Append the .pub content to:
 ```
 
 **Set correct permissions on the server:**
-
 ```bash
 
 chmod 700 ~/.ssh
@@ -149,7 +145,6 @@ Use this in your Traefik middleware config for securing the dashboard.
 ### 🔗 Docker Networks
 
 **Create a Docker network:**
-
 ```bash
 
 docker network create <network-name>
@@ -169,7 +164,6 @@ docker network ls
 
 
 **Follow Traefik logs:**
-
 ```bash
 
 docker logs -f traefik
@@ -177,10 +171,182 @@ docker logs -f traefik
 ```
 
 **Filter Traefik logs for certificate activity:**
-
 ```bash
 
 docker logs -f traefik | grep certificate
 
 ```
 ---
+
+## 🐳 Docker & Compose Commands
+
+Essential Docker commands to help you manage containers, images, volumes, and services with ease.
+
+---
+
+### 📦 Container Management
+
+**List running containers:**
+```bash
+
+docker ps
+
+```
+
+**List all containers (including stopped ones):**
+```bash
+
+docker ps -a
+
+```
+
+**Start a container:**
+```bash
+
+docker start <container_name>
+
+```
+
+**Stop a container:**
+```bash
+
+docker stop <container_name>
+
+```
+
+**Restart a container:**
+```bash
+
+docker restart <container_name>
+
+```
+
+**Restart a container:**
+```bash
+
+docker restart <container_name>
+
+```
+
+**Restart a container:**
+```bash
+
+docker rm <container_name>
+
+```
+
+---
+### 🧰 Docker Compose
+
+**Start all services in the background:**
+
+```bash
+
+docker compose up -d
+
+```
+
+**Start services with rebuild (no cache):**
+
+```bash
+
+docker compose up -d --build --no-cache
+
+```
+**Stop all running services:**
+
+```bash
+
+docker compose down
+
+```
+
+**Stop all running services and remove volumes:**
+
+```bash
+
+docker compose down -v
+
+```
+
+**Rebuild services:**
+
+```bash
+
+docker compose build
+
+```
+
+**View logs for all services:**
+
+```bash
+
+docker compose logs -f
+
+```
+
+**View logs for a specific service:**
+
+```bash
+
+docker compose logs -f <service_name>
+
+```
+
+**Restart a specific service:**
+
+```bash
+
+docker compose restart <service_name>
+
+```
+
+---
+
+### 🧱 Image Management
+
+**List local Docker images:**
+```bash
+
+docker images
+
+```
+
+**Build an image (from Dockerfile):**
+```bash
+
+docker build -t <image_name> .
+
+```
+
+**Build an image (from Dockerfile):**
+```bash
+
+docker rmi <image_name>
+
+```
+
+---
+
+### 🧹 Cleanup Commands
+
+**Remove all stopped containers:**
+```bash
+
+docker container prune
+
+```
+
+**Remove unused images:**
+```bash
+
+docker image prune
+
+```
+
+**Remove all unused volumes:**
+```bash
+
+docker volume prune
+
+```
