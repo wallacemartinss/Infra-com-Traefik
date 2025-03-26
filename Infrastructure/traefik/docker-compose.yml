@@ -26,7 +26,7 @@ services:
       - "--certificatesresolvers.letsencrypt.acme.dnschallenge.provider=cloudflare"
       - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=1.1.1.1:53,1.0.0.1:53"
       - "--certificatesResolvers.letsencrypt.acme.dnschallenge.delayBeforeCheck=20"
-      - "--certificatesresolvers.letsencrypt.acme.email=wallacemartinss@gmail.com"
+      - "--certificatesresolvers.letsencrypt.acme.email=youemail@youdomain.com"
       - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
 
       # Redirecionamento de HTTP para HTTPS
@@ -38,17 +38,17 @@ services:
       # Configurar TLS para o domínio e wildcard
       - "--entrypoints.websecure.http.tls=true"
       - "--entrypoints.websecure.http.tls.certResolver=letsencrypt"
-      - "--entrypoints.websecure.http.tls.domains[0].main=wmediatech.com"
-      - "--entrypoints.websecure.http.tls.domains[0].sans=*.wmediatech.com"
-      - "--entrypoints.websecure.http.tls.domains[1].main=agendouagora.com.br"
-      - "--entrypoints.websecure.http.tls.domains[1].sans=*.agendouagora.com.br"
+      - "--entrypoints.websecure.http.tls.domains[0].main=youdomain.com"
+      - "--entrypoints.websecure.http.tls.domains[0].sans=*.youdomain.com"
+      - "--entrypoints.websecure.http.tls.domains[1].main=youdomain.com.br"
+      - "--entrypoints.websecure.http.tls.domains[1].sans=*.youdomain.com.br"
 
       # Habilitar logs detalhados
       - "--log.level=DEBUG"
     labels:
       # Acesso ao painel do Traefik
       - "traefik.enable=true"
-      - "traefik.http.routers.traefik.rule=Host(`traefik.wmediatech.com`)"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.youdomain.com`)"
       - "traefik.http.routers.traefik.entrypoints=websecure"
       - "traefik.http.routers.traefik.service=api@internal"
       - "traefik.http.middlewares.traefik-auth.basicauth.users=admin:$$2y$$05$$6OGRF54/oOhULtYamdZbTOBh4QouCOuTYpH5FeP2LDmfThAgx5qIC"

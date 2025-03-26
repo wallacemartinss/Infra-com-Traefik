@@ -16,7 +16,7 @@ Whether you're spinning up a dev environment or preparing for production, this s
 
 ## ✨ Features
 
-- 🔐 **Automatic HTTPS** with Let's Encrypt via Traefik  
+- 🔐 **Automatic HTTPS** with Let's Encrypt via Traefik with Dns Challenge (CloudFlare)
 - 🔁 **Dynamic reverse proxy** for your services, with zero-downtime reloads  
 - 📊 **Built-in monitoring stack** with Prometheus, Grafana, and exporters  
 - 🛢️ **Containerized databases** like PostgreSQL and MySQL, ready to use  

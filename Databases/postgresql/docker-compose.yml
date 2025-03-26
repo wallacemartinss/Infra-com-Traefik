@@ -37,7 +37,7 @@ services:
       - "9187:9187"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.postgres-exporter.rule=Host(`postgres-exporter.wmediatech.com`)"
+      - "traefik.http.routers.postgres-exporter.rule=Host(`postgres-exporter.youdomain.com`)"
       - "traefik.http.routers.postgres-exporter.entrypoints=websecure"
       - "traefik.http.services.postgres-exporter.loadbalancer.server.port=9187"
     networks:

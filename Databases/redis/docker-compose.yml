@@ -27,13 +27,13 @@ services:
       - "9121:9121"
     environment:
       - REDIS_ADDR=redis://redis:6379
-      - REDIS_PASSWORD=c9ad733190938c7362f4234bbce2aaa6
+      - REDIS_PASSWORD=yourpassredis
     networks:
       - databases
       - production
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.redis_exporter.rule=Host(`redis-exporter.wmediatech.com`)"
+      - "traefik.http.routers.redis_exporter.rule=Host(`redis-exporter.youdomain.com`)"
       - "traefik.http.routers.redis_exporter.entrypoints=websecure"
 
 volumes:

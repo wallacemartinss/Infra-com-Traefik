@@ -14,7 +14,7 @@ services:
       # Habilita descoberta do container
       - "traefik.enable=true"
       # Habilita a rota do traefik
-      - "traefik.http.routers.prometheus.rule=Host(`prometheus.wmediatech.com`)"
+      - "traefik.http.routers.prometheus.rule=Host(`prometheus.yourdomain.com`)"
       - "traefik.http.routers.prometheus.entrypoints=websecure"
       # Habilita o service do traefik (Exposer a porta interna do prometheus)
       - "traefik.http.services.prometheus.loadbalancer.server.port=9090"

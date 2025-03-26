@@ -41,11 +41,11 @@ services:
     env_file:
       - .env
     command:
-      - "--mysqld.username=exporter:4f75b6ac924c8df5a273e8a4b1e9fd72"
+      - "--mysqld.username=exporter:youpassworduserexporter"
       - "--mysqld.address=mysql:3306"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.mysql_exporter.rule=Host(`mysql-exporter.wmediatech.com`)"
+      - "traefik.http.routers.mysql_exporter.rule=Host(`mysql-exporter.youdomain.com`)"
       - "traefik.http.routers.mysql_exporter.entrypoints=websecure"
       - "traefik.http.services.mysql_exporter.loadbalancer.server.port=9104"
     networks:
