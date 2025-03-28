@@ -26,7 +26,7 @@ services:
       - "--certificatesresolvers.letsencrypt.acme.dnschallenge.provider=cloudflare"
       - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=1.1.1.1:53,1.0.0.1:53"
       - "--certificatesResolvers.letsencrypt.acme.dnschallenge.delayBeforeCheck=20"
-      - "--certificatesresolvers.letsencrypt.acme.email=youemail@youdomain.com"
+      - "--certificatesresolvers.letsencrypt.acme.email=wallacemartinss@hotmail.com"
       - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
 
       # Redirecionamento de HTTP para HTTPS
@@ -38,20 +38,23 @@ services:
       # Configurar TLS para o domínio e wildcard
       - "--entrypoints.websecure.http.tls=true"
       - "--entrypoints.websecure.http.tls.certResolver=letsencrypt"
-      - "--entrypoints.websecure.http.tls.domains[0].main=youdomain.com"
-      - "--entrypoints.websecure.http.tls.domains[0].sans=*.youdomain.com"
-      - "--entrypoints.websecure.http.tls.domains[1].main=youdomain.com.br"
-      - "--entrypoints.websecure.http.tls.domains[1].sans=*.youdomain.com.br"
+      - "--entrypoints.websecure.http.tls.domains[0].main=tramacolorida.com.br"
+      - "--entrypoints.websecure.http.tls.domains[0].sans=*.tramacolorida.com.br"
+      - "--entrypoints.websecure.http.tls.domains[1].main=tramacolorida.com"
+      - "--entrypoints.websecure.http.tls.domains[1].sans=*.tramacolorida.com"
 
       # Habilitar logs detalhados
       - "--log.level=DEBUG"
+
+      # Habilitar Metricas Prometheus
+      - "--metrics.prometheus=true"
     labels:
       # Acesso ao painel do Traefik
       - "traefik.enable=true"
-      - "traefik.http.routers.traefik.rule=Host(`traefik.youdomain.com`)"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.tramacolorida.com.br`)"
       - "traefik.http.routers.traefik.entrypoints=websecure"
       - "traefik.http.routers.traefik.service=api@internal"
-      - "traefik.http.middlewares.traefik-auth.basicauth.users=admin:$$2y$$05$$6OGRF54/oOhULtYamdZbTOBh4QouCOuTYpH5FeP2LDmfThAgx5qIC"
+      - "traefik.http.middlewares.traefik-auth.basicauth.users=admin:$$2y$05$$B7NNTLp24u6ZV8yeK1uKGe8oDu2tQr0m.yPDDFYFs5bFomnUPsxkW" #senha123
       - "traefik.http.routers.traefik.middlewares=traefik-auth"
     secrets:
       - cloudflare-token

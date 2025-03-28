@@ -1,7 +1,7 @@
 networks:
-  production:
+  monitoring:
     external: true
-    name: production
+    name: monitoring
 
 services:  
   prometheus:
@@ -14,7 +14,7 @@ services:
       # Habilita descoberta do container
       - "traefik.enable=true"
       # Habilita a rota do traefik
-      - "traefik.http.routers.prometheus.rule=Host(`prometheus.yourdomain.com`)"
+      - "traefik.http.routers.prometheus.rule=Host(`prometheus.tramacolorida.com.br`)"
       - "traefik.http.routers.prometheus.entrypoints=websecure"
       # Habilita o service do traefik (Exposer a porta interna do prometheus)
       - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
@@ -22,7 +22,7 @@ services:
       - "traefik.http.middlewares.prometheus-auth.basicauth.users=admin:$2y$05$3fcP10QOpOFkNn7EW7Iy4unRg84.TkgkmxFnL6QSV.wSND.R4rK5i"
       - "traefik.http.routers.prometheus.middlewares=prometheus-auth"
     networks:
-      - production
+      - monitoring
 
 
 

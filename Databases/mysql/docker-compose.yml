@@ -2,9 +2,9 @@ networks:
   databases:
     external: true
     name: databases
-  production:
+  monitoring:
     external: true
-    name: production
+    name: monitoring
 services:
   mysql:
     image: mysql:8.0 
@@ -45,12 +45,12 @@ services:
       - "--mysqld.address=mysql:3306"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.mysql_exporter.rule=Host(`mysql-exporter.youdomain.com`)"
+      - "traefik.http.routers.mysql_exporter.rule=Host(`mysql-exporter.tramacolorida.com.br`)"
       - "traefik.http.routers.mysql_exporter.entrypoints=websecure"
       - "traefik.http.services.mysql_exporter.loadbalancer.server.port=9104"
     networks:
       - databases
-      - production
+      - monitoring
 
 volumes:
   mysql_data:

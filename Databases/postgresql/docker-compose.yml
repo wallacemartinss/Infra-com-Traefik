@@ -2,9 +2,9 @@ networks:
   databases:
     external: true
     name: databases
-  production:
+  monitoring:
     external: true
-    name: production
+    name: monitoring
 services:
   postgres:
     image: postgres:latest
@@ -37,12 +37,12 @@ services:
       - "9187:9187"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.postgres-exporter.rule=Host(`postgres-exporter.youdomain.com`)"
+      - "traefik.http.routers.postgres-exporter.rule=Host(`postgres-exporter.tramacolorida.com.br`)"
       - "traefik.http.routers.postgres-exporter.entrypoints=websecure"
       - "traefik.http.services.postgres-exporter.loadbalancer.server.port=9187"
     networks:
       - databases
-      - production
+      - monitoring
 
 volumes:
   postgres_data:

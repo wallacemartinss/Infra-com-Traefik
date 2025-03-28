@@ -1,4 +1,7 @@
 networks:
+  monitoring:
+    external: true
+    name: monitoring
   production:
     external: true
     name: production
@@ -8,21 +11,21 @@ services:
     image: grafana/grafana:latest
     container_name: grafana
     restart: unless-stopped
-    user: "1000:1000"  # Garante que o container rode com um usuário não root
     environment:
-      - GF_SECURITY_ADMIN_USER=youemail@youdomain.com  # Define usuário admin
-      - GF_SECURITY_ADMIN_PASSWORD=yourpassword  # Defina uma senha segura
-      - GF_SERVER_DOMAIN=grafana.youdomain.com  # Domínio usado no Traefik
-      - GF_SERVER_ROOT_URL=https://grafana.youdomain.com  # URL base correta para evitar erros de proxy reverso
+      - GF_SECURITY_ADMIN_USER=wallacemartinss@hotmail.com  # Define usuário admin
+      - GF_SECURITY_ADMIN_PASSWORD=password  # Defina uma senha segura
+      - GF_SERVER_DOMAIN=traefik.tramacolorida.com.br  # Domínio usado no Traefik
+      - GF_SERVER_ROOT_URL=https://grafana.tramacolorida.com.br  # URL base correta para evitar erros de proxy reverso
       - GF_AUTH_ANONYMOUS_ENABLED=false  # Desativa acesso anônimo
       - GF_AUTH_DISABLE_LOGIN_FORM=false  # Mantém o login ativado
     volumes:
       - grafana_data:/var/lib/grafana
     networks:
+      - monitoring
       - production
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.grafana.rule=Host(`grafana.youdomain.com`)"
+      - "traefik.http.routers.grafana.rule=Host(`grafana.tramacolorida.com.br`)"
       - "traefik.http.routers.grafana.entrypoints=websecure"
       - "traefik.http.services.grafana.loadbalancer.server.port=3000"
 
