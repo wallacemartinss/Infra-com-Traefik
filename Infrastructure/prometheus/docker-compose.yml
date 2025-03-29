@@ -19,7 +19,7 @@ services:
       # Habilita o service do traefik (Exposer a porta interna do prometheus)
       - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
       # Habilita o middleware de segurança
-      - "traefik.http.middlewares.prometheus-auth.basicauth.users=admin:$2y$05$3fcP10QOpOFkNn7EW7Iy4unRg84.TkgkmxFnL6QSV.wSND.R4rK5i"
+      - "traefik.http.middlewares.prometheus-auth.basicauth.users=admin:$$2y$05$$CWW9TIuG4ZlK9RtBnoObYengW8/TImy7Cqfd5T0sPJpbpb0O9bCtG"
       - "traefik.http.routers.prometheus.middlewares=prometheus-auth"
     networks:
       - monitoring
