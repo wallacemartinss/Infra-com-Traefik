@@ -2,6 +2,9 @@ networks:
   monitoring:
     external: true
     name: monitoring
+  production:
+    external: true
+    name: production
 
 services:  
   prometheus:
@@ -23,6 +26,7 @@ services:
       - "traefik.http.routers.prometheus.middlewares=prometheus-auth"
     networks:
       - monitoring
+      - production
 
 
 
