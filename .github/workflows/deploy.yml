@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout"
-        uses: appleboy/ssh-action@master
+        uses: actions/checkout@v4
 
       - name: "Copy Files"
         uses: appleboy/scp-action@v0.1.7
