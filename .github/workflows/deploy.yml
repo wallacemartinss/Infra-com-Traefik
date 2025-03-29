@@ -11,12 +11,21 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v4
 
-      - name: "Copy Files"
-        uses: appleboy/scp-action@v0.1.7
+      - name: "Deploy com rsync (somente arquivos alterados)"
+        uses: appleboy/ssh-action@v1.0.0
         with:
-          host: ${{ secrets.HOST}}
+          host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "."
-          target: "/root/infra"
-          debug: true
+          script: |
+            mkdir -p /root/infra
+
+      - name: "Rsync para servidor remoto"
+        run: |
+          rsync -avz --delete -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" ./ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/root/infra
+        env:
+          RSYNC_RSH: ssh
+        shell: bash
+
+      - name: "Apagar chave temporária"
+        run: rm -f ~/.ssh/deploy_key
