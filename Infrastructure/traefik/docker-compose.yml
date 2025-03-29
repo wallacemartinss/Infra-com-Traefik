@@ -42,6 +42,8 @@ services:
       - "--entrypoints.websecure.http.tls.domains[0].sans=*.tramacolorida.com.br"
       - "--entrypoints.websecure.http.tls.domains[1].main=tramacolorida.com"
       - "--entrypoints.websecure.http.tls.domains[1].sans=*.tramacolorida.com"
+      - "--entrypoints.websecure.http.tls.domains[2].main=tramacolorida.online"
+      - "--entrypoints.websecure.http.tls.domains[2].sans=*.tramacolorida.online"
 
       # Habilitar logs detalhados
       - "--log.level=DEBUG"
@@ -54,7 +56,7 @@ services:
       - "traefik.http.routers.traefik.rule=Host(`traefik.tramacolorida.com.br`)"
       - "traefik.http.routers.traefik.entrypoints=websecure"
       - "traefik.http.routers.traefik.service=api@internal"
-      - "traefik.http.middlewares.traefik-auth.basicauth.users=admin:$$2y$05$$B7NNTLp24u6ZV8yeK1uKGe8oDu2tQr0m.yPDDFYFs5bFomnUPsxkW" #senha123
+      - "traefik.http.middlewares.traefik-auth.basicauth.users=admin:$$2y$05$$P.M7abpqCKXMAUh07Zm8RuDdCx7XoL1D3x3wfN2o.4nJN2n9YZj3O" #senha123
       - "traefik.http.routers.traefik.middlewares=traefik-auth"
     secrets:
       - cloudflare-token
