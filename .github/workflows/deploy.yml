@@ -11,11 +11,6 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v4
 
-      - name: Decode SSH key
-        run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" | base64 -d > private_key.pem
-          chmod 600 private_key.pem
-
       - name: "Copy Files"
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -24,3 +19,4 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "."
           target: "/containers"
+          debug: true
