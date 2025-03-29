@@ -14,8 +14,8 @@ jobs:
       - name: "Copy Files"
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{ secrets.HOST_TEST }}
-          username: ${{ secrets.USERNAME_TEST }}
-          key: ${{ secrets.SSH_PRIVATE_KEY_TEST }}
+          host: ${{ secrets.HOST}}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "."
           target: "."
