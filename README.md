@@ -17,10 +17,7 @@ Whether you're spinning up a dev environment or preparing for production, this s
 
 **If you find this project useful, please consider [sponsoring me on GitHub](https://github.com/sponsors/wallacemartinss)! on GitHub! — it helps keep the project active and maintained!**
 
-
 Your sponsorship helps me dedicate more time to adding features, fixing bugs, and building open source tools for the community. Thank you for your support! 🙏
-
-
 
 ---
 
@@ -32,8 +29,6 @@ Your sponsorship helps me dedicate more time to adding features, fixing bugs, an
 - 🛢️ **Containerized databases** like PostgreSQL, Redis and MySQL, ready to use  
 - 🐳 **Fully Docker-based**, easy to deploy and manage  
 - ⚙️ **Scalable foundation** for microservices or monoliths  
-- 🧩 **Plug-and-play architecture** — just configure your `.env` and run  
-
 
 
 ## 🧱 Architecture Diagram
