@@ -19,6 +19,12 @@ Whether you're spinning up a dev environment or preparing for production, this s
 
 Your sponsorship helps me dedicate more time to adding features, fixing bugs, and building open source tools for the community. Thank you for your support! 🙏
 
+**Enjoyed the content? If you want and can, buy me a coffee via Pix! ☕ ✨**
+
+```bash
+f986fbd8-1902-42af-8fd6-d351aa950a74
+```
+
 ---
 
 ## ✨ Features
