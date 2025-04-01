@@ -8,6 +8,7 @@ networks:
   production:
     external: true
     name: production
+
 services:
   evolution:
     container_name: evolution
@@ -23,7 +24,7 @@ services:
       DATABASE_CONNECTION: pgsql
       DATABASE_CONNECTION_URI: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/evolution
     ports:
-      - "8080:8080"
+      - "8081:8080"
     networks:
       - applications
       - databases
@@ -32,7 +33,7 @@ services:
       - evolution_instances:/evolution/instances
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.evolution.rule=Host(`evolution.agendouagora.com.br`)"
+      - "traefik.http.routers.evolution.rule=Host(`evolution.yourdomain.online`)"
       - "traefik.http.routers.evolution.entrypoints=websecure"
       - "traefik.http.services.evolution.loadbalancer.server.port=8080"
       - "traefik.docker.network=applications"

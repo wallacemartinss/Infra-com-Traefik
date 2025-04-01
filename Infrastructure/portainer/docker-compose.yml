@@ -15,7 +15,7 @@ services:
         - portainer_data:/data
       labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.portainer.rule=Host(`portainer.tramacolorida.com.br`)"
+        - "traefik.http.routers.portainer.rule=Host(`portainer.yourdomain.com.br`)"
         - "traefik.http.routers.portainer.entrypoints=websecure"
         - "traefik.http.services.portainer.loadbalancer.server.port=9000"
       networks:

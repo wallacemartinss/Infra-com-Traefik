@@ -12,23 +12,34 @@ services:
     container_name: grafana
     restart: unless-stopped
     environment:
-      - GF_SECURITY_ADMIN_USER=wallacemartinss@hotmail.com  # Define usuário admin
+      - GF_SECURITY_ADMIN_USER=youremail@example.com # Define usuário admin
       - GF_SECURITY_ADMIN_PASSWORD=password  # Defina uma senha segura
-      - GF_SERVER_DOMAIN=traefik.tramacolorida.com.br  # Domínio usado no Traefik
-      - GF_SERVER_ROOT_URL=https://grafana.tramacolorida.com.br  # URL base correta para evitar erros de proxy reverso
+      - GF_SERVER_DOMAIN=traefik.yourdomain.com.br  # Domínio usado no Traefik
+      - GF_SERVER_ROOT_URL=https://grafana.yourdomain.com.br  # URL base correta para evitar erros de proxy reverso
       - GF_AUTH_ANONYMOUS_ENABLED=false  # Desativa acesso anônimo
       - GF_AUTH_DISABLE_LOGIN_FORM=false  # Mantém o login ativado
+
+      # Bloco Configuração SMTP
+      - GF_SMTP_ENABLED=true
+      - GF_SMTP_HOST=smtp.seu-servidor.com:587
+      - GF_SMTP_USER=seu-email@seu-dominio.com
+      - GF_SMTP_PASSWORD="$suaSenha123#"
+      - GF_SMTP_FROM_ADDRESS=grafana@seu-dominio.com
+      - GF_SMTP_FROM_NAME=Grafana Alertas
+      - GF_SMTP_SKIP_VERIFY=true
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.grafana.rule=Host(`grafana.yourdomain.com.br`)"
+      - "traefik.http.routers.grafana.entrypoints=websecure"
+      - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+      - "traefik.docker.network=production"
     volumes:
       - grafana_data:/var/lib/grafana
     networks:
       - monitoring
       - production
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.grafana.rule=Host(`grafana.tramacolorida.com.br`)"
-      - "traefik.http.routers.grafana.entrypoints=websecure"
-      - "traefik.http.services.grafana.loadbalancer.server.port=3000"
-
+      
 volumes:
   grafana_data:
     driver: local

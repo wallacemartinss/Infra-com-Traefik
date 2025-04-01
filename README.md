@@ -13,18 +13,28 @@ This project is a plug-and-play infrastructure setup designed for any VPS. It co
 Whether you're spinning up a dev environment or preparing for production, this setup helps you launch fast, stay secure, and keep everything under control.
 
 ---
+## ❤️ Support This Project
+
+**If you find this project useful, please consider sponsoring me on GitHub! — it helps keep the project active and maintained!**
+
+
+Your sponsorship helps me dedicate more time to adding features, fixing bugs, and building open source tools for the community. Thank you for your support! 🙏
+
+<p align="left"> <a href="https://github.com/sponsors/wallacemartinss"> <img src="https://img.shields.io/badge/Sponsor-%E2%9D%A4--me-on%20GitHub-red?style=for-the-badge" alt="Sponsor me on GitHub"> </a> </p>
+
+---
 
 ## ✨ Features
 
 - 🔐 **Automatic HTTPS** with Let's Encrypt via Traefik with Dns Challenge (CloudFlare)
 - 🔁 **Dynamic reverse proxy** for your services, with zero-downtime reloads  
 - 📊 **Built-in monitoring stack** with Prometheus, Grafana, and exporters  
-- 🛢️ **Containerized databases** like PostgreSQL and MySQL, ready to use  
+- 🛢️ **Containerized databases** like PostgreSQL, Redis and MySQL, ready to use  
 - 🐳 **Fully Docker-based**, easy to deploy and manage  
 - ⚙️ **Scalable foundation** for microservices or monoliths  
 - 🧩 **Plug-and-play architecture** — just configure your `.env` and run  
 
----
+
 
 ## 🧱 Architecture Diagram
 
@@ -45,7 +55,7 @@ Below is a simplified overview of the infrastructure:
              ▼                           ▼                           ▼
      +--------------+         +-----------------+         +-----------------+
      |   Grafana    |         |   Prometheus    |         |   Portainer     |
-     | production   |         |  production     |         |  production     |
+     | Monitoring   |         |  production     |         |  production     |
      +--------------+         +-----------------+         +-----------------+
 
                    (All services above are reverse proxied by Traefik)
@@ -72,9 +82,10 @@ Below is a simplified overview of the infrastructure:
 
 This project uses **three isolated Docker networks** to provide clean architecture and enhance security:
 
-- **`production`** — for core infrastructure services like Traefik, Grafana, Prometheus, and Portainer  
+- **`production`** — for core infrastructure services like Traefik, Prometheus, and Portainer  
 - **`databases`** — for database containers such as PostgreSQL, MySQL, Redis  
 - **`application`** — for your actual app containers (API, frontend, workers, etc.)
+- **`Monitoring`** — for the Exporter's and Grafana
 
 Each container is connected only to the networks it needs — reducing attack surfaces and keeping your infrastructure modular and maintainable.
 
@@ -176,6 +187,60 @@ docker logs -f traefik
 docker logs -f traefik | grep certificate
 
 ```
+
+### 🔧 Node exporter
+
+**Install and configure Prometheus Node Exporter to monitor system metrics (CPU, memory, disk, etc).**
+
+📥 **1. Download Node Exporter**
+```bash
+cd /opt
+curl -LO https://github.com/prometheus/node_exporter/releases/download/v1.9.0/node_exporter-1.9.0.linux-amd64.tar.gz
+
+```
+
+📦 **2. Extract and move binary**
+```bash
+tar xvf node_exporter-1.9.0.linux-amd64.tar.gz
+mv node_exporter-1.9.0.linux-amd64/node_exporter /usr/local/bin/
+rm -rf node_exporter-1.9.0.linux-amd64*
+```
+
+👤 **3. Create a system user**
+
+```bash
+sudo useradd --no-create-home --shell /usr/sbin/nologin node_exporter
+```
+
+🔥 **4. Open port 9100**
+```bash
+ufw allow 9100/tcp
+```
+
+🚀 **5. Start and enable the service**
+
+```bash
+systemctl daemon-reload
+systemctl start node_exporter
+systemctl enable node_exporter
+```
+
+---
+
+### 📊 1. Importing Dashboards in Grafana
+
+✔️ Traefik - Dashboard ID: 4475
+
+✔️ PostgreSQL - Dashboard ID: 9628
+
+✔️ MySQL - Dashboard ID: 7362
+
+✔️ Redis - Dashboard ID: 11835
+
+✔️ Node Exporter (server metrics)- Dashboard ID: 1860
+
+To browse ready-to-use community dashboards: 🔗 https://grafana.com/grafana/dashboards
+
 ---
 
 ## 🐳 Docker & Compose Commands

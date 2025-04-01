@@ -5,6 +5,12 @@ networks:
   monitoring:
     external: true
     name: monitoring
+
+volumes:
+  postgres_data:
+    driver: local
+    name: postgres_data
+
 services:
   postgres:
     image: postgres:latest
@@ -14,11 +20,11 @@ services:
       - .env
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./conf/postgresql.conf:/var/lib/postgresql/data/postgresql.conf  
-    command: ["postgres", "-c", "config_file=/var/lib/postgresql/data/postgresql.conf"]
+      - ./conf/postgresql.conf:/etc/postgresql/postgresql.conf
+    command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER"]
-      interval: 5s
+      test: ["CMD-SHELL", "pg_isready -U administrator"]
+      interval: 10s
       timeout: 5s
       retries: 5
     networks:
@@ -28,23 +34,18 @@ services:
     image: prometheuscommunity/postgres-exporter
     container_name: postgres-exporter
     restart: unless-stopped
-    depends_on:
-      postgres:
-        condition: service_healthy
     env_file:
       - .env
     ports:
       - "9187:9187"
+    environment:
+      - DATA_SOURCE_NAME=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?sslmode=disable
+    depends_on:
+      postgres:
+        condition: service_healthy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.postgres-exporter.rule=Host(`postgres-exporter.tramacolorida.com.br`)"
-      - "traefik.http.routers.postgres-exporter.entrypoints=websecure"
-      - "traefik.http.services.postgres-exporter.loadbalancer.server.port=9187"
+      
     networks:
       - databases
       - monitoring
-
-volumes:
-  postgres_data:
-    driver: local
-    name: postgres_data

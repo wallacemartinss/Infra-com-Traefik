@@ -5,6 +5,7 @@ networks:
   monitoring:
     external: true
     name: monitoring
+    
 services:
   redis:
     image: redis:latest
@@ -33,9 +34,7 @@ services:
       - monitoring
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.redis_exporter.rule=Host(`redis-exporter.tramacolorida.com.br`)"
-      - "traefik.http.routers.redis_exporter.entrypoints=websecure"
-
+    
 volumes:
   redis_data:
     driver: local
