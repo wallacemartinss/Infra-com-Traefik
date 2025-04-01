@@ -15,7 +15,7 @@ Whether you're spinning up a dev environment or preparing for production, this s
 ---
 ## ❤️ Support This Project
 
-**If you find this project useful, please consider <p align="left"> <a href="https://github.com/sponsors/wallacemartinss" alt="Sponsor me on GitHub"> </a> </p> on GitHub! — it helps keep the project active and maintained!**
+**If you find this project useful, please consider [sponsoring me on GitHub](https://github.com/sponsors/wallacemartinss)! on GitHub! — it helps keep the project active and maintained!**
 
 
 Your sponsorship helps me dedicate more time to adding features, fixing bugs, and building open source tools for the community. Thank you for your support! 🙏
