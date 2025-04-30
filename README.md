@@ -189,43 +189,6 @@ docker logs -f traefik | grep certificate
 
 ```
 
-### 🔧 Node exporter
-
-**Install and configure Prometheus Node Exporter to monitor system metrics (CPU, memory, disk, etc).**
-
-📥 **1. Download Node Exporter**
-```bash
-cd /opt
-curl -LO https://github.com/prometheus/node_exporter/releases/download/v1.9.0/node_exporter-1.9.0.linux-amd64.tar.gz
-
-```
-
-📦 **2. Extract and move binary**
-```bash
-tar xvf node_exporter-1.9.0.linux-amd64.tar.gz
-mv node_exporter-1.9.0.linux-amd64/node_exporter /usr/local/bin/
-rm -rf node_exporter-1.9.0.linux-amd64*
-```
-
-👤 **3. Create a system user**
-
-```bash
-sudo useradd --no-create-home --shell /usr/sbin/nologin node_exporter
-```
-
-🔥 **4. Open port 9100**
-```bash
-ufw allow 9100/tcp
-```
-
-🚀 **5. Start and enable the service**
-
-```bash
-systemctl daemon-reload
-systemctl start node_exporter
-systemctl enable node_exporter
-```
-
 ---
 
 ### 📊 1. Importing Dashboards in Grafana
