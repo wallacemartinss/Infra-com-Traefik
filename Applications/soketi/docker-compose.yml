@@ -1,0 +1,27 @@
+networks:
+  applications:
+    external: true
+    name: applications
+  production:
+    external: true
+    name: production
+
+services:
+  soketi:
+    image: 'quay.io/soketi/soketi:latest-16-alpine'
+    container_name: soketi
+    command: [ "node", "/app/bin/server.js", "start", "--config=/opt/config.json" ]
+    restart: unless-stopped
+    volumes:
+      - './config/config.json:/opt/config.json'
+    ports:
+      - '6001:6001'
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.CONTAINER_NAME.rule=Host(`HOSTNAME`)"
+      - "traefik.http.routers.CONTAINER_NAME.entrypoints=websecure"
+      - "traefik.http.services.CONTAINER_NAME.loadbalancer.server.port=6001"
+      - "traefik.docker.network=production"
+    networks:
+      - applications
+      - production
