@@ -1,0 +1,34 @@
+networks:
+  applications:
+    external: true
+    name: applications
+  production:
+    external: true
+    name: production
+
+services:
+  typesense:
+    image: typesense/typesense:28.0
+    container_name: typesense
+    restart: on-failure
+    env_file:
+      - .env
+    ports:
+      - "8108:8108"
+    volumes:
+      - typesense_data:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.CONTAINER_NAME.rule=Host(`HOSTNAME`)"
+      - "traefik.http.routers.CONTAINER_NAME.entrypoints=websecure"
+      - "traefik.http.services.CONTAINER_NAME.loadbalancer.server.port=8108"
+      - "traefik.docker.network=production"
+    command: '--data-dir /data --api-key=${TYPESENSE_API_KEY} --enable-cors'
+    networks:
+      - applications
+      - production
+
+volumes:
+  typesense_data:
+    driver: local
+    name: typesense_data
