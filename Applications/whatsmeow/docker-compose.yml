@@ -1,0 +1,33 @@
+services:
+  whatsmeow:
+    build: .
+    container_name: whatsmeow
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - whatsmeow_storage:/app/storage
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whatsmeow.rule=Host(`whatsmeow.seudominio.com`)"
+      - "traefik.http.routers.whatsmeow.entrypoints=websecure"
+      - "traefik.http.services.whatsmeow.loadbalancer.server.port=80"
+      - "traefik.docker.network=production"
+    networks:
+      - applications
+      - production
+    stdin_open: true
+    tty: true
+
+volumes:
+  whatsmeow_storage:
+    driver: local
+    name: whatsmeow_storage
+
+networks:
+  applications:
+    external: true
+    name: applications
+  production:
+    external: true
+    name: production
