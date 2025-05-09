@@ -1,0 +1,18 @@
+{
+  "users": [
+    {
+      "name": "kalo",
+      "password_hash": "Z3h4JJkf5OekFzBaT+8NPXWRS3d3yZzpHV7cwH59OfU=",
+      "tags": "administrator"
+    }
+  ],
+  "permissions": [
+    {
+      "user": "kalo",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    }
+  ]
+}

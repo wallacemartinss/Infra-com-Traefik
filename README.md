@@ -203,6 +203,8 @@ docker logs -f traefik | grep certificate
 
 ✔️ Node Exporter (server metrics)- Dashboard ID: 1860
 
+✔️ RabbitMQ- Dashboard ID: 10991
+
 To browse ready-to-use community dashboards: 🔗 https://grafana.com/grafana/dashboards
 
 ---

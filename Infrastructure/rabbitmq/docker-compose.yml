@@ -1,0 +1,53 @@
+networks:
+  applications:
+    external: true
+    name: applications
+  monitoring:
+    external: true
+    name: monitoring
+  production:
+    external: true
+    name: production
+
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: rabbitmq
+    restart: always
+    hostname: rabbitmq
+    ports:
+      - "5672:5672" #porta de comunicação
+      - "15672:15672" #porta de gerenciamento
+      - "15692:15692" #porta de monitoramento
+    environment:
+      RABBITMQ_LOAD_DEFINITIONS: /etc/rabbitmq/definitions.json
+    volumes:
+      - rabbitmq-lib:/var/lib/rabbitmq/
+      - rabbitmq-log:/var/log/rabbitmq
+      - ./enabled_plugins:/etc/rabbitmq/enabled_plugins
+      - ./definitions.json:/etc/rabbitmq/definitions.json
+      - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.evolution.rule=Host(`rabbit.yourdomain.online`)"
+      - "traefik.http.routers.evolution.entrypoints=websecure"
+      - "traefik.http.services.evolution.loadbalancer.server.port=15672"
+      - "traefik.docker.network=production"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - production
+      - monitoring
+      - applications
+
+volumes:
+  rabbitmq-lib:
+    driver: local
+    name: rabbitmq-lib
+  rabbitmq-log:
+    driver: local
+    name: rabbitmq-lib
