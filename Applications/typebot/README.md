@@ -1,0 +1,103 @@
+# TYPEBOT
+
+Documentação do Typebot
+
+[https://docs.typebot.io/get-started/introduction](https://docs.typebot.io/get-started/introduction)
+
+## Usage
+
+Ajustar o endpoint do traefik no arquivo docker-compose.yml container builder
+
+```yaml
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.CONTAINER_NAME-builder.rule=Host(`HOSTNAME`)"
+      - "traefik.http.routers.CONTAINER_NAME-builder.entrypoints=websecure"
+      - "traefik.http.services.CONTAINER_NAME-builder.loadbalancer.server.port=3000"
+      - "traefik.docker.network=production"
+```
+
+Ajustar o endpoint do traefik no arquivo docker-compose.yml container viewer
+
+```yaml
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.CONTAINER_NAME-viewer.rule=Host(`HOSTNAME`)"
+      - "traefik.http.routers.CONTAINER_NAME-viewer.entrypoints=websecure"
+      - "traefik.http.services.CONTAINER_NAME-viewer.loadbalancer.server.port=3000"
+      - "traefik.docker.network=production"
+```
+
+Crie o arquivo .env.
+
+```bash
+cp .env.example .env
+```
+
+```dotenv
+# Database
+POSTGRES_HOST=postgres
+POSTGRES_USER=administrator
+POSTGRES_PASSWORD=yourpassword
+POSTGRES_PORT=5432
+POSTGRES_DB=typebot
+
+# Database Connection
+DATABASE_PROVIDER=postgresql
+DATABASE_CONNECTION=pgsql
+DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}"
+REDIS_URL=redis://:yourpassredis@redis:6379/3
+
+# Admin Credential
+ADMIN_EMAIL="youremail@example.com"
+ADMIN_PASSWORD=
+
+# URL Auth (Ajustando para o ambiente de produção)
+NEXTAUTH_URL="https://typebot.yourdomain.online"
+NEXT_PUBLIC_VIEWER_URL="https://viewertypebot.yourdomain.online"
+
+# SMTP Configuration (Ajustado para usar o MailServer)
+
+SMTP_HOST=
+SMTP_PORT=
+SMTP_USERNAME=
+SMTP_PASSWORD=
+SMTP_SECURE=true
+SMTP_IGNORE_TLS=false
+NEXT_PUBLIC_SMTP_FROM=
+SMTP_AUTH_DISABLED=false
+
+# MinIO Storage
+S3_ACCESS_KEY=admin
+S3_SECRET_KEY=minio123
+S3_BUCKET=typebot
+S3_ENDPOINT=s3.yourdomain.online
+S3_SSL=true
+
+# Key and Version
+SOFTWARE_VERSION_TAG="latest"
+ENCRYPTION_SECRET=CQO+viSB0gPPmiGN+T+hDgY4TlS8smi0
+
+# Typebot Settings
+SMTP_SECURE=false
+DISABLE_SIGNUP=false
+DEBUG=true
+```
+
+## Comands
+
+```bash
+docker compose build
+```
+
+```bash
+docker compose up -d
+```
+
+```bash
+docker compose down
+```
+
+```bash
+docker compose rm
+```

@@ -4,6 +4,10 @@ Documentação do Typesense
 
 [https://typesense.org/docs/](https://typesense.org/docs/)
 
+Docker image
+
+[typesense/typesense](https://hub.docker.com/r/typesense/typesense/)
+
 ## Usage
 
 Ajustar o endpoint do traefik no arquivo docker-compose.yml
@@ -11,9 +15,9 @@ Ajustar o endpoint do traefik no arquivo docker-compose.yml
 ```yaml
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.CONTAINER_NAME.rule=Host(`HOSTNAME`)"
-      - "traefik.http.routers.CONTAINER_NAME.entrypoints=websecure"
-      - "traefik.http.services.CONTAINER_NAME.loadbalancer.server.port=8108"
+      - "traefik.http.routers.typesense.rule=Host(`typesense.seudominio.com`)"
+      - "traefik.http.routers.typesense.entrypoints=websecure"
+      - "traefik.http.services.typesense.loadbalancer.server.port=8108"
       - "traefik.docker.network=production"
 ```
 
