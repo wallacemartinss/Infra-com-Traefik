@@ -1,0 +1,46 @@
+services:
+  n8n:
+    image: n8nio/n8n
+    container_name: n8n
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=admin
+      - N8N_BASIC_AUTH_PASSWORD=admin
+      - N8N_HOST=n8n.yourdomain.com.br
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=https
+      - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
+      - NODE_ENV=production
+      - TZ=America/Sao_Paulo
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+    networks:
+      - applications
+      - databases
+      - production
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.n8n.rule=Host(`n8n.yourdomain.com.br`)"
+      - "traefik.http.routers.n8n.entrypoints=websecure"
+      - "traefik.http.services.n8n.loadbalancer.server.port=5678"
+      - "traefik.docker.network=production"
+
+volumes:
+  n8n_data:
+    name: n8n_data
+    driver: local
+
+networks:
+  applications:
+    external: true
+    name: applications
+  databases:
+    external: true
+    name: databases
+  production:
+    external: true
+    name: production
