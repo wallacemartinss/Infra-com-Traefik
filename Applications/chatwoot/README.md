@@ -4,6 +4,10 @@ Documentação do Chatwoot
 
 [https://www.chatwoot.com/docs/self-hosted](https://www.chatwoot.com/docs/self-hosted)
 
+Docker image
+
+[https://hub.docker.com/r/chatwoot/chatwoot](https://hub.docker.com/r/chatwoot/chatwoot)
+
 ## Usage
 
 Ajustar o endpoint do traefik no arquivo docker-compose.yml
