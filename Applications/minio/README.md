@@ -4,6 +4,10 @@ Documentação do Minio
 
 [https://min.io/docs/minio/container/index.html](https://min.io/docs/minio/container/index.html)
 
+Docker image
+[minio/minio](https://hub.docker.com/r/minio/minio)
+[minio/mc](https://hub.docker.com/r/minio/mc)
+
 ## Usage
 
 Ajustar o endpoint do traefik no arquivo docker-compose.yml
