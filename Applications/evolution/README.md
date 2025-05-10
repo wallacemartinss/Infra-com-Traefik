@@ -4,6 +4,10 @@ Documentação do Evolution
 
 [https://doc.evolution-api.com/](https://doc.evolution-api.com/)
 
+Docker image
+
+[https://hub.docker.com/r/atendai/evolution-api](https://hub.docker.com/r/atendai/evolution-api)
+
 ## Usage
 
 Ajustar o endpoint do traefik no arquivo docker-compose.yml
