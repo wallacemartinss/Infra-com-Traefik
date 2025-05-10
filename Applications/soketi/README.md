@@ -4,6 +4,9 @@ Documentação do Soketi
 
 [https://docs.soketi.app/](https://docs.soketi.app/)
 
+Docker image
+[quay.io/soketi/soketi](https://quay.io/repository/soketi/soketi?tab=info)
+
 ## Usage
 
 Ajustar o endpoint do traefik no arquivo docker-compose.yml
