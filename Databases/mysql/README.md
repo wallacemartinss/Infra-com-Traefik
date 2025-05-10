@@ -8,6 +8,8 @@ Docker Image
 
 [mysql](https://hub.docker.com/_/mysql)
 
+[quay.io/prometheus/mysqld-exporter](https://quay.io/repository/prometheus/mysqld-exporter?tab=info)
+
 ## Usage
 
 Crie o arquivo .env.
