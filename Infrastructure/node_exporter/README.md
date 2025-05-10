@@ -6,7 +6,7 @@ Documentação do Node Exporter
 
 Docker Image
 
-[https://hub.docker.com/r/prom/node-exporter/](https://hub.docker.com/r/prom/node-exporter/)
+[prom/node-exporter/](https://hub.docker.com/r/prom/node-exporter/)
 
 ## Comands
 
