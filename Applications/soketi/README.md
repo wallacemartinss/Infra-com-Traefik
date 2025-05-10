@@ -4,6 +4,10 @@ Documentação do Soketi
 
 [https://docs.soketi.app/](https://docs.soketi.app/)
 
+Docker image
+
+[quay.io/soketi/soketi](https://quay.io/repository/soketi/soketi?tab=info)
+
 ## Usage
 
 Ajustar o endpoint do traefik no arquivo docker-compose.yml
@@ -11,9 +15,9 @@ Ajustar o endpoint do traefik no arquivo docker-compose.yml
 ```yaml
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.CONTAINER_NAME.rule=Host(`HOSTNAME`)"
-      - "traefik.http.routers.CONTAINER_NAME.entrypoints=websecure"
-      - "traefik.http.services.CONTAINER_NAME.loadbalancer.server.port=6001"
+      - "traefik.http.routers.soketi.rule=Host(`soketi.yourdomain.online`)"
+      - "traefik.http.routers.soketi.entrypoints=websecure"
+      - "traefik.http.services.soketi.loadbalancer.server.port=6001"
       - "traefik.docker.network=production"
 ```
 
