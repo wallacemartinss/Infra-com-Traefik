@@ -51,6 +51,22 @@ GF_SMTP_FROM_NAME="Grafana Alertas"
 GF_SMTP_SKIP_VERIFY=true
 ```
 
+## Importing Dashboards in Grafana
+
+✔️ Traefik - Dashboard ID: 4475
+
+✔️ PostgreSQL - Dashboard ID: 9628
+
+✔️ MySQL - Dashboard ID: 7362
+
+✔️ Redis - Dashboard ID: 11835
+
+✔️ Node Exporter (server metrics)- Dashboard ID: 1860
+
+✔️ RabbitMQ- Dashboard ID: 10991
+
+To browse ready-to-use community dashboards: 🔗 https://grafana.com/grafana/dashboards
+
 ## Comands
 
 ```bash
