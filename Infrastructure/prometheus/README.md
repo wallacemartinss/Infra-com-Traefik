@@ -10,7 +10,7 @@ Docker image
 
 ## Usage
 
-Gere a senha usando o htpass:
+Gere a senha usando o htpasswd:
 
 ```bash
 htpasswd -nbB yourusername yourpassword
