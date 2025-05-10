@@ -6,4 +6,4 @@ collation-server=utf8mb4_unicode_ci
 slow_query_log=1
 long_query_time=1
 log_output=FILE
-max_connections=200
+max_connections=400
