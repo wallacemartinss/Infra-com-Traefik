@@ -1,0 +1,74 @@
+services:
+ 
+  front:
+    image: mailu/nginx:1.9
+    restart: always
+    env_file: .env
+    networks:
+      - applications
+      - databases
+      - production
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mail.rule=Host(`mail.seudominio.com`)"
+      - "traefik.http.routers.mail.entrypoints=websecure"
+      - "traefik.http.services.mail.loadbalancer.server.port=80"
+      - "traefik.docker.network=production"
+
+  imap:
+    image: mailu/dovecot:1.9
+    restart: always
+    env_file: .env
+    volumes:
+      - maildata:/data
+    networks:
+      - production
+
+  smtp:
+    image: mailu/postfix:1.9
+    restart: always
+    env_file: .env
+    volumes:
+      - maildata:/data
+    networks:
+      - production
+
+  admin:
+    image: mailu/admin:1.9
+    restart: always
+    env_file: .env
+    volumes:
+      - maildata:/data
+    networks:
+      - production
+
+  webmail:
+    image: mailu/roundcube:1.9
+    restart: always
+    env_file: .env
+    volumes:
+      - maildata:/data
+    networks:
+      - production
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.webmail.rule=Host(`webmail.seudominio.com`)"
+      - "traefik.http.routers.webmail.entrypoints=websecure"
+      - "traefik.http.services.webmail.loadbalancer.server.port=80"
+      - "traefik.docker.network=production"
+
+volumes:
+  maildata:
+    driver: local
+    name: maildata
+
+networks:
+  applications:
+    external: true
+    name: applications
+  databases:
+    external: true
+    name: databases
+  production:
+    external: true
+    name: production
