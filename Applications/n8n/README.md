@@ -4,6 +4,9 @@ Documentação do N8N
 
 [https://docs.n8n.io/](https://docs.n8n.io/)
 
+Docker image
+[n8nio/n8n](https://hub.docker.com/r/n8nio/n8n)
+
 ## Usage
 
 Ajustar o endpoint do traefik no arquivo docker-compose.yml
