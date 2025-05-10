@@ -27,5 +27,7 @@ scrape_configs:
     static_configs:
       - targets: ['rabbitmq:15692']
 
-
+  - job_name: 'soketi'
+    static_configs:
+      - targets: ['soketi:6001']
 

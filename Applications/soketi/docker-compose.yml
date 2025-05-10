@@ -10,7 +10,7 @@ services:
   soketi:
     image: 'quay.io/soketi/soketi:latest-16-alpine'
     container_name: soketi
-    command: [ "node", "/app/bin/server.js", "start", "--config=/opt/config.json" ]
+    command: [ "node", "/app/bin/server.js", "start", "--config=/opt/config.json", "--metrics.prometheus.enabled=true" ]
     restart: unless-stopped
     volumes:
       - './config/config.json:/opt/config.json'
