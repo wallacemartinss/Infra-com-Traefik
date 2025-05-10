@@ -4,6 +4,10 @@ Documentação do Typesense
 
 [https://typesense.org/docs/](https://typesense.org/docs/)
 
+Docker image
+
+[typesense/typesense](https://hub.docker.com/r/typesense/typesense/)
+
 ## Usage
 
 Ajustar o endpoint do traefik no arquivo docker-compose.yml
