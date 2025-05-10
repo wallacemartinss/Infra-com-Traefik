@@ -1,3 +1,0 @@
-CREATE USER IF NOT EXISTS 'exporter'@'%' IDENTIFIED BY 'youpassworduserexporter';
-GRANT PROCESS, REPLICATION CLIENT, SELECT ON *.* TO 'exporter'@'%';
-FLUSH PRIVILEGES;
