@@ -22,9 +22,6 @@ services:
     command: server /data --console-address ":9002"
     env_file:
       - .env
-    environment:
-      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
-      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
     volumes:
       - s3_data:/data
     ports:
