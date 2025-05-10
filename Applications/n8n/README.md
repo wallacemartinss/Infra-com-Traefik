@@ -24,7 +24,15 @@ cp .env.example .env
 ```
 
 ```dotenv
-TYPESENSE_API_KEY=
+N8N_BASIC_AUTH_ACTIVE=true
+N8N_BASIC_AUTH_USER=admin
+N8N_BASIC_AUTH_PASSWORD=admin
+N8N_HOST=n8n.yourdomain.com.br
+N8N_PORT=5678
+N8N_PROTOCOL=https
+N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
+NODE_ENV=production
+TZ=America/Sao_Paulo
 ```
 
 ## Comands
