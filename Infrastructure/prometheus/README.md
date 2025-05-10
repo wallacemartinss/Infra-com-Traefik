@@ -10,6 +10,12 @@ Docker image
 
 ## Usage
 
+Gere a senha usando o htpass:
+
+```bash
+htpasswd -nbB yourusername yourpassword
+```
+
 Ajustar o endpoint do traefik no arquivo docker-compose.yml
 
 ```yaml
@@ -25,16 +31,6 @@ Ajustar o endpoint do traefik no arquivo docker-compose.yml
       - "traefik.http.middlewares.prometheus-auth.basicauth.users=admin:$$2y$05$$CWW9TIuG4ZlK9RtBnoObYengW8/TImy7Cqfd5T0sPJpbpb0O9bCtG"
       - "traefik.http.routers.prometheus.middlewares=prometheus-auth"
       - "traefik.docker.network=production"
-```
-
-Crie o arquivo .env.
-
-```bash
-cp .env.example .env
-```
-
-```dotenv
-TYPESENSE_API_KEY=
 ```
 
 ## Comands
