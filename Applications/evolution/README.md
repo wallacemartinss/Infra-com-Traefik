@@ -1,0 +1,104 @@
+# EVOLUTION
+
+Documentação do Evolution
+
+[https://doc.evolution-api.com/](https://doc.evolution-api.com/)
+
+Docker image
+
+[https://hub.docker.com/r/atendai/evolution-api](https://hub.docker.com/r/atendai/evolution-api)
+
+## Usage
+
+Ajustar o endpoint do traefik no arquivo docker-compose.yml
+
+```yaml
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.evolution.rule=Host(`evolution.yourdomain.online`)"
+      - "traefik.http.routers.evolution.entrypoints=websecure"
+      - "traefik.http.services.evolution.loadbalancer.server.port=8080"
+      - "traefik.docker.network=applications"
+```
+
+Crie o arquivo .env.
+
+```bash
+cp .env.example .env
+```
+
+```dotenv
+# Servidor
+SERVER_TYPE=http
+SERVER_PORT=8080
+SERVER_URL=https://evolution.yourdomain.online
+
+# Auth Config
+AUTHENTICATION_TYPE=apikey
+AUTHENTICATION_API_KEY=23yJCmKK0YFx1Px7sETtcbVpvRylgJvh
+AUTHENTICATION_EXPOSE_IN_FETCH_INSTANCES=true
+
+# Configuração do Redis com autenticação
+CACHE_REDIS_ENABLED=true
+CACHE_REDIS_URI=redis://:yourpassredis@redis:6379/2
+CACHE_REDIS_PREFIX_KEY=evolution
+CACHE_REDIS_SAVE_INSTANCES=true
+
+POSTGRES_HOST=postgres
+POSTGRES_USER=administrator
+POSTGRES_PASSWORD=yourpassword
+POSTGRES_PORT=5432
+
+# Typebot - Environment variables
+TYPEBOT_ENABLED=true
+TYPEBOT_API_VERSION=latest
+
+# Determine the logs to be displayed
+LOG_LEVEL=ERROR,WARN,DEBUG,INFO,LOG,VERBOSE,DARK,WEBHOOKS,WEBSOCKET
+LOG_COLOR=true
+LOG_BAILEYS=error
+
+# Set the maximum number of listeners that can be registered for an event
+EVENT_EMITTER_MAX_LISTENERS=50
+
+# Choose the data you want to save in the application's database
+DATABASE_SAVE_DATA_INSTANCE=true
+DATABASE_SAVE_DATA_NEW_MESSAGE=true
+DATABASE_SAVE_MESSAGE_UPDATE=true
+DATABASE_SAVE_DATA_CONTACTS=true
+DATABASE_SAVE_DATA_CHATS=true
+DATABASE_SAVE_DATA_LABELS=true
+DATABASE_SAVE_DATA_HISTORIC=true
+DATABASE_SAVE_IS_ON_WHATSAPP=true
+DATABASE_SAVE_IS_ON_WHATSAPP_DAYS=7
+DATABASE_DELETE_MESSAGE=true
+
+# Name that will be displayed on smartphone connection
+CONFIG_SESSION_PHONE_CLIENT=Evolution API
+
+# Browser Name = Chrome | Firefox | Edge | Opera | Safari
+CONFIG_SESSION_PHONE_NAME=Chrome
+
+# Set qrcode display limit
+QRCODE_LIMIT=30
+# Color of the QRCode on base64
+QRCODE_COLOR='#175197'
+```
+
+## Comands
+
+```bash
+docker compose build
+```
+
+```bash
+docker compose up -d
+```
+
+```bash
+docker compose down
+```
+
+```bash
+docker compose rm
+```
