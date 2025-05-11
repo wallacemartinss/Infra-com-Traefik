@@ -15,7 +15,7 @@ Ajustar o endpoint do traefik no arquivo docker-compose.yml
 ```yaml
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.typesense.rule=Host(`typesense.seudominio.com`)"
+      - "traefik.http.routers.typesense.rule=Host(`typesense.yourdomain.online`)"
       - "traefik.http.routers.typesense.entrypoints=websecure"
       - "traefik.http.services.typesense.loadbalancer.server.port=8108"
       - "traefik.docker.network=production"
