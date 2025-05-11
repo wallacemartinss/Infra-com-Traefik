@@ -1,0 +1,35 @@
+networks:
+  applications:
+    external: true
+    name: applications
+  databases:
+    external: true
+    name: databases
+  production:
+    external: true
+    name: production
+
+services:
+  bugsink:
+    image: bugsink/bugsink
+    container_name: bugsink
+    restart: on-failure
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.bugsink.rule=Host(`bugsink.jsg.tec.br`)"
+      - "traefik.http.routers.bugsink.entrypoints=websecure"
+      - "traefik.http.services.bugsink.loadbalancer.server.port=8000"
+      - "traefik.docker.network=production"
+    healthcheck:
+      test: [ "CMD-SHELL", "python -c 'import requests; requests.get(\"http://localhost:8000/\").raise_for_status()'" ]
+      interval: 5s
+      timeout: 20s
+      retries: 10
+    networks:
+      - applications
+      - databases
+      - production
